@@ -89,7 +89,7 @@ export const loginDoctor = async (req, res, next) => {
     const payload = {
       id: doctor.id,
     };
-    const token = jwt.sign(payload, process.env.SECRET, { expiresIn: "1d" });
+    const token = jwt.sign(payload, process.env.SECRET_DOCTOR, { expiresIn: "1d" });
 
     res.json({
       message: `Welcome ${doctor.username}`,
@@ -124,7 +124,7 @@ export const loginUser = async (req, res, next) => {
     const payload = {
       id: user.id,
     };
-    const token = jwt.sign(payload, process.env.SECRET, { expiresIn: "1d" });
+    const token = jwt.sign(payload, process.env.SECRET_USER, { expiresIn: "1d" });
 
     res.json({
       message: `Welcome ${user.username}`,

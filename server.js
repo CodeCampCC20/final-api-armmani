@@ -7,6 +7,7 @@ import userRouter from "./routes/userRoute.js"
 import doctorRouter from "./routes/doctorRoute.js"
 import authRouter from "./routes/authRoute.js"
 
+
 const app = express()
 
 app.use(cors())
@@ -16,6 +17,7 @@ app.use(express.json())
 app.use("/auth", authRouter)
 app.use("/users", userRouter)
 app.use('/doctors', doctorRouter)
+app.use('/', userRouter)
 
 app.use(error)
 
