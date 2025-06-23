@@ -21,11 +21,7 @@ export const healthGet = async (req, res, next) => {
     const { id } = req.user;
     const result = await prisma.healthRecord.findMany({
       where: {
-        id: Number(id),
-      },
-      data: {
-        type: type,
-        value: value,
+        userId: Number(id),
       },
     });
     res.json({ result: result, message: "Your Records" });

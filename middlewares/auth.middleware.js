@@ -26,17 +26,19 @@ export const authCheckDoctor = (req, res, next) => {
 export const authCheckUser = (req, res, next) => {
   try {
     const header = req.headers.authorization
-
+    // console.log("AUTH HEADER:", header)
     if(!header){
       createError(401, "Token Unauthorization")
     }
 
     const token = header.split(" ")[1]
-
+    // console.log("TOKEN:", token)
     jwt.verify(token, process.env.SECRET_USER, (error, decode) => {
       if(error) {
         createError(401, "Token is invalid")
       }
+      // console.log("DECODED PAYLOAD:", decode)
+
       req.user = decode
       next()
     })
