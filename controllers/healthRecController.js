@@ -24,6 +24,9 @@ export const healthGet = async (req, res, next) => {
         userId: Number(id),
       },
     });
+    if(result.length === 0) {
+      res.status(404).json({message: "No Record Found"})
+    }
     res.json({ result: result, message: "Your Records" });
   } catch (error) {
     next(error);
@@ -32,11 +35,11 @@ export const healthGet = async (req, res, next) => {
 
 export const healthGetById = async (req, res, next) => {
   try {
-    const recordId = Number(req.params.id);
+    const {id} = req.params
 
     const result = await prisma.healthRecord.findFirst({
       where: {
-        id: recordId,
+        id: Number(id),
       },
     });
     if (!result) {
@@ -50,13 +53,13 @@ export const healthGetById = async (req, res, next) => {
 
 export const healthUpdateById = async (req, res, next) => {
   try {
-    const recordId = Number(req.params.id);
+    const {id} = req.params
     const userId = req.user.id;
     const { type, value } = req.body;
 
     const result = await prisma.healthRecord.update({
       where: {
-        id: recordId,
+        id: Number(id),
         userId: userId,
       },
       data: {
@@ -68,6 +71,23 @@ export const healthUpdateById = async (req, res, next) => {
       result: result,
       message: `Your Record id ${recordId} was updated`,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const healthDeleteById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.id;
+
+    const delrecord = await prisma.healthRecord.delete({
+      where: {
+        id: Number(id),
+        userId: userId
+      },
+    });
+    res.json({message: `Record ${id} is deleted`})
   } catch (error) {
     next(error);
   }
