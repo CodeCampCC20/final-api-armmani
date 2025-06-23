@@ -15,3 +15,21 @@ export const healthCreate = async (req, res, next) => {
     next(error);
   }
 };
+
+export const healthGet = async (req, res, next) => {
+  try {
+    const { id } = req.user;
+    const result = await prisma.healthRecord.findMany({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        type: type,
+        value: value,
+      },
+    });
+    res.json({ result: result, message: "Your Records" });
+  } catch (error) {
+    next(error);
+  }
+};
